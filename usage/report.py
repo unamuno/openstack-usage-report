@@ -98,6 +98,18 @@ class Report:
             writer.writeheader()
         yield writer
 
+    def _encode(self, s):
+        """Encodes s as utf-8 if s is unicode.
+
+        :param s: Value to encode
+        :type s: Object
+        :returns: utf-8 encoded s
+        :rtype: str
+        """
+        if isinstance(s, unicode):
+            return s.encode('utf-8')
+        return s
+
     def run(self):
         """Run the report."""
         report_start = time.time()
@@ -118,7 +130,13 @@ class Report:
                     reading.convert(item.get('conversion'))
                     line_item = {
                         c.get('name'):
-                            self._field_function(c.get('func'), item, reading)
+                            self._encode(
+                                self._field_function(
+                                    c.get('func'),
+                                    item,
+                                    reading
+                                )
+                            )
                         for c in columns
                     }
                     csv_scope.writerow(line_item)
