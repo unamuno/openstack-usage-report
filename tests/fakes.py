@@ -40,7 +40,7 @@ class FakeReportArgs:
                  stop=None,
                  config_file='config_file',
                  definition_filename='definition_filename',
-                 output_directory='/basedir',
+                 output_directory='/tmp/basedir',
                  log_level='log_level',
                  show_tags=False,
                  use_stdout=False,

@@ -5,6 +5,7 @@ from log import logging
 
 from conversions import convert
 from conversions.time_units import seconds_to_hours
+from data import trim
 
 
 ALLOWED_METER_TYPES = set(['gauge', 'cumulative', 'delta'])
@@ -26,6 +27,7 @@ class Reading:
         """
         self.start = start
         self.stop = stop
+        trim(samples)
         self._during_samples = []
         self._split_samples(samples)
         self._calculate()
