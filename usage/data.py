@@ -3,7 +3,6 @@ Collection of functions for altering a list of samples.
 """
 
 _COMPUTE_STATUSES = set([
-    "active",
     "build",
     "rebuild",
     "resize",
