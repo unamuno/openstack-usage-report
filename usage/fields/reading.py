@@ -80,6 +80,12 @@ def metadata_field(key, r):
     if not value:
         value = _i_get(metadata, i_map, 'properties.{}'.format(key))
 
+    # Try swift next.
+    # Swift container metadata keys are in resource metadata
+    # keyed by 'x-container-meta-<key>'
+    if not value:
+        value = _i_get(metadata, i_map, 'x-container-meta-{}'.format(key))
+
     # Try cinder next.
     # Metadata fields are stored as a list of metadata objects.
     if not value:

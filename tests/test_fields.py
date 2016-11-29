@@ -108,6 +108,21 @@ class TestMetadataField(unittest.TestCase):
         # Test insensitive key
         self.assertEquals(metadata_field('metadata:tEsT', r), 'cinder')
 
+    def test_swift_metadata(self):
+        metadata = {'x-container-meta-test': 'swift'}
+        r = FakeReading(metadata=metadata)
+        self.assertEquals(metadata_field(self.key, r), 'swift')
+
+        # Test insensitive metadata
+        metadata = {'X-Container-Meta-Test': 'swift'}
+        r = FakeReading(metadata=metadata)
+        self.assertEquals(metadata_field(self.key, r), 'swift')
+
+        # Test insensitive key
+        metadata = {'x-container-meta-test': 'swift'}
+        r = FakeReading(metadata=metadata)
+        self.assertEquals(metadata_field('metadata:tESt', r), 'swift')
+
 
 class TestImageMetadataField(unittest.TestCase):
     """Tests the image metadata field function."""
