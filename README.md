@@ -35,7 +35,7 @@ of the samples in a time range.
 ```shell
 
 # Clone this repo
-git clone https://github.com/absalon-james/usage.git
+git clone https://github.com/openstack-usage-report/usage.git
 
 # Setup the configuration file with credentials
 mkdir -p /etc/usage
