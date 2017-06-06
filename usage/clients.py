@@ -8,6 +8,11 @@ from keystoneauth1 import loading
 from keystoneauth1 import session
 from ceilometerclient import client as ceilometerclient
 
+from cinderclient import client as cinderclient
+
+
+_CM = None
+
 
 class DomainClient(object):
     """The openstackclient is lame."""
@@ -68,6 +73,7 @@ class ClientManager(object):
         :param project_id: String project_id - Tenant uuid
         """
         self.session = None
+        self.cinder = None
         self.ceilometer = None
         self.domain = None
         self.auth_kwargs = kwargs
@@ -90,7 +96,7 @@ class ClientManager(object):
         """Get a ceilometer client instance.
 
         :param version: String api version
-        :return: cinderclient.client
+        :return: ceilometerclient.client
         """
         if self.ceilometer is None:
             self.ceilometer = ceilometerclient.get_client(
@@ -98,6 +104,21 @@ class ClientManager(object):
                 **self.auth_kwargs
             )
         return self.ceilometer
+
+    def get_cinder(self, version='2'):
+        """Get a cinder client instance
+
+        :param version: Api version
+        :type version: str
+        :return: Cinder client instance
+        :rtype: cinderclient.client.Client
+        """
+        if self.cinder is None:
+            kwargs = {'session': self.get_session()}
+            if 'endpoint_type' in self.auth_kwargs:
+                kwargs['interface'] = self.auth_kwargs['endpoint_type']
+            self.cinder = cinderclient.Client(version, **kwargs)
+        return self.cinder
 
     def get_domain(self):
         """Get an domain client instance.
@@ -111,3 +132,24 @@ class ClientManager(object):
                 kwargs['interface'] = self.auth_kwargs['endpoint_type']
             self.domain = DomainClient(**kwargs)
         return self.domain
+
+
+def create_client_manager(**kwargs):
+    """Create a new instance of ClientManager if one does not exist.
+
+    :returns: Instance of client manager
+    :rtype: ClientManager
+    """
+    global _CM
+    if _CM is None:
+        _CM = ClientManager(**kwargs)
+    return _CM
+
+
+def get_client_manager():
+    """Get an instance of already existing client manager.
+
+    :returns: Instance of client manager
+    :rtype: ClientManager|None
+    """
+    return _CM

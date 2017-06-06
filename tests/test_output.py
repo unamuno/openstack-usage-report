@@ -18,7 +18,7 @@ class TestStream(unittest.TestCase):
 
 class TestFile(unittest.TestCase):
     @mock.patch('usage.output.os.makedirs')
-    @mock.patch('usage.output.open')
+    @mock.patch('__builtin__.open')
     def test_init(self, m_open, m_makedirs):
         name = '/somewhere/somefile.csv'
         f = output.File(name)
@@ -30,7 +30,7 @@ class TestFile(unittest.TestCase):
 class TestMtd(unittest.TestCase):
     @mock.patch('usage.output.File')
     @mock.patch('usage.output.os.makedirs')
-    @mock.patch('usage.output.open')
+    @mock.patch('__builtin__.open')
     def test_init(self, m_open, m_makedirs, m_file):
         year = 2016
         month = 1
@@ -44,7 +44,7 @@ class TestMtd(unittest.TestCase):
 class TestDaily(unittest.TestCase):
     @mock.patch('usage.output.File')
     @mock.patch('usage.output.os.makedirs')
-    @mock.patch('usage.output.open')
+    @mock.patch('__builtin__.open')
     def test_init(self, m_open, m_makedirs, m_file):
         year = 2016
         month = 1
@@ -58,7 +58,7 @@ class TestDaily(unittest.TestCase):
 class TestOther(unittest.TestCase):
     @mock.patch('usage.output.File')
     @mock.patch('usage.output.os.makedirs')
-    @mock.patch('usage.output.open')
+    @mock.patch('__builtin__.open')
     def test_init(self, m_open, m_makedirs, m_file):
         stop = datetime.datetime.utcnow()
         start = stop - datetime.timedelta(hours=1)

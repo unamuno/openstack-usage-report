@@ -1,4 +1,5 @@
 import ast
+import volume_types
 
 from usage import tag
 from usage.conversions.time_units import seconds_to_hours
@@ -358,3 +359,19 @@ def usage_start_date(d, i, r):
     :rtype: String
     """
     return r.usage_start.isoformat()
+
+
+def volume_type(d, i, r):
+    """Get volume type from reading.
+
+    :param d: Report definition.
+    :type d: Dict
+    :param i: Item definition
+    :type i: dict
+    :param r: Meter reading
+    :type r: usage.reading.Reading
+    :return: Human readable name of volume type
+    :rtype: str
+    """
+    volume_type_id = r.metadata.get('volume_type')
+    return volume_types.name_from_id(volume_type_id)
