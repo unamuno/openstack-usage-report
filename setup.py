@@ -39,6 +39,7 @@ entry_points = """
     usage_end_date=usage.fields.reading:usage_end_date
     usage_start_date=usage.fields.reading:usage_start_date
     usage_type=usage.fields.item:usage_type
+    volume_type=usage.fields.reading:volume_type
     [usage.licensers]
     OracleCount=usage.licensing.oracle:CountLicenser
     OracleHours=usage.licensing.oracle:HourLicenser

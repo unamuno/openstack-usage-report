@@ -13,7 +13,8 @@ class TestConsoleSummary(unittest.TestCase):
     """Tests the Console Summary function."""
     @mock.patch('usage.console.logger')
     @mock.patch('usage.console.config')
-    @mock.patch('usage.console.ClientManager')
+    #@mock.patch('usage.console.ClientManager')
+    @mock.patch('usage.console.create_client_manager')
     @mock.patch('usage.console.summary_parser.parse_args')
     @mock.patch('usage.console.Summary')
     def test_console_summary(self,

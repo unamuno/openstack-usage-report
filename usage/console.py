@@ -6,7 +6,7 @@ import utils
 
 from args.report import parser as report_parser
 from args.summary import parser as summary_parser
-from clients import ClientManager
+from clients import create_client_manager
 from log import logging
 from report import Report
 from summary import Summary
@@ -29,7 +29,7 @@ def console_licensing():
     args = licensing_parser.parse_args()
     conf = config.load(args.config_file)
     logger.setLevel(LOG_LEVELS.get(args.log_level.lower(), 'info'))
-    clientmanager = ClientManager(**conf.get('auth_kwargs', {}))
+    clientmanager = create_client_manager(**conf.get('auth_kwargs', {}))
     set_domain_client(clientmanager.get_domain())
     Licensing(
         definition_file=args.definition_file,
@@ -42,7 +42,7 @@ def console_summary():
     args = summary_parser.parse_args()
     conf = config.load(args.config_file)
     logger.setLevel(LOG_LEVELS.get(args.log_level.lower(), 'info'))
-    clientmanager = ClientManager(**conf.get('auth_kwargs', {}))
+    clientmanager = create_client_manager(**conf.get('auth_kwargs', {}))
     Summary(
         domain_client=clientmanager.get_domain(),
         input_file=args.csv_file,
@@ -58,7 +58,7 @@ def console_report():
     conf = config.load(args.config_file)
     logger.setLevel(LOG_LEVELS.get(args.log_level.lower(), 'info'))
 
-    manager = ClientManager(**conf.get('auth_kwargs', {}))
+    manager = create_client_manager(**conf.get('auth_kwargs', {}))
     ceilometer = manager.get_ceilometer()
 
     out = output.Stream() if args.use_stdout else None

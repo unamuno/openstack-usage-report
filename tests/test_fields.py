@@ -31,6 +31,7 @@ from usage.fields.reading import usage_account_id
 from usage.fields.reading import usage_amount
 from usage.fields.reading import usage_end_date
 from usage.fields.reading import usage_start_date
+from usage.fields.reading import volume_type
 from usage.fields.report import invoice_id
 from usage.exc import UnknownFieldFunctionError
 
@@ -364,3 +365,20 @@ class TestDescription(unittest.TestCase):
         i = {'description': 'description'}
         self.assertTrue(description(None, {}, None) is '')
         self.assertEquals(description(None, i, None), 'description')
+
+
+class TestVolumeType(unittest.TestCase):
+    """Tests the volume_type field function."""
+
+    @mock.patch(
+        'usage.fields.reading.volume_types.name_from_id',
+        return_value='test_volume_name'
+    )
+    def test_volume_type_none(self, mock_name_from_id):
+        metadata = {}
+        r = FakeReading(metadata=metadata)
+        self.assertEquals('test_volume_name', volume_type(None, None, r))
+
+        metadata = {'volume_type': 'some-id'}
+        r = FakeReading(metadata=metadata)
+        self.assertEquals('test_volume_name', volume_type(None, None, r))
