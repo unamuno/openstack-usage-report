@@ -30,6 +30,9 @@ of the samples in a time range.
 - pip install python-ceilometerclient
 - pip install positional
 - pip install babel
+- pip install pyyaml
+- pip install keystoneclient
+- pip install python-cinderclient
 
 ### Installation
 ```shell
